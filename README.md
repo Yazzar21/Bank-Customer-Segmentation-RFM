@@ -68,7 +68,7 @@ Pengambilan sampel 10 baris data pertama untuk menginspeksi struktur kolom, tipe
   <img src="1-Proses_Pengambilan_Sampel_Data_Transaksi.png" width="850" alt="Sampel Data Transaksi">
 </p>
 
-* **Temuan Teknis:** Kolom penanggalan (`TransactionDate`) tersimpan dalam format teks tidak terstandar (`D/M/YY`), saldo nasabah (`CustAccountBalance`) memiliki format desimal, dan nominal transaksi (`TransactionAmount (INR)`) memerlukan pembersihan nilai nol atau transaksi gagal.
+* **Analisis Teknis:** Kolom penanggalan (`TransactionDate`) tersimpan dalam format teks tidak terstandar (`D/M/YY`), saldo nasabah (`CustAccountBalance`) memiliki format desimal, dan nominal transaksi (`TransactionAmount (INR)`) memerlukan pembersihan nilai nol atau transaksi gagal.
 
 ---
 
@@ -96,7 +96,7 @@ Mengidentifikasi nasabah dengan kontribusi perputaran dana dan aktivitas transak
   <img src="3-Top_10_Nasabah_Paling_Aktif_&_Bernilai_Tinggi.png" width="850" alt="Top 10 Nasabah">
 </p>
 
-* **Wawasan Analitis:** Nasabah `C6911364` menempati peringkat teratas dengan total akumulasi transaksi mencapai **₹1.560.034,99** melalui 3 kali transaksi. Identifikasi nasabah di lapisan teratas ini menjadi acuan pembentukan segmentasi nasabah prioritas perbankan (*High-Net-Worth Individuals*).
+* **Analisis Teknis:** Nasabah `C6911364` menempati peringkat teratas dengan total akumulasi transaksi mencapai **₹1.560.034,99** melalui 3 kali transaksi. Identifikasi nasabah di lapisan teratas ini menjadi acuan pembentukan segmentasi nasabah prioritas perbankan (*High-Net-Worth Individuals*).
 
 ---
 
@@ -138,7 +138,7 @@ Mengelompokkan transaksi berdasarkan lokasi domisili nasabah untuk memetakan kon
 | 9 | **HYDERABAD** | 23.049 | ₹36.177.394,43 | ₹1.569,59 |
 | 10 | **THANE** | 21.505 | ₹27.158.100,63 | ₹1.262,87 |
 
-* **Wawasan Geografis:** Kota **Mumbai** dan **New Delhi** menguasai lebih dari ₹340 juta dari total likuiditas belanja. Namun, **New Delhi mencatatkan rata-rata belanja tertinggi (₹1.892,26)**, menunjukkan daya beli (*purchasing power*) per transaksi yang lebih besar dibanding kota metropolitan lainnya.
+* **Analisis Berdasarkan Geografis:** Kota **Mumbai** dan **New Delhi** menguasai lebih dari ₹340 juta dari total likuiditas belanja. Namun, **New Delhi mencatatkan rata-rata belanja tertinggi (₹1.892,26)**, menunjukkan daya beli (*purchasing power*) per transaksi yang lebih besar dibanding kota metropolitan lainnya.
 
 ---
 
@@ -160,7 +160,7 @@ Menyusun tabel fisik teragregasi `customer_rfm_summary` melalui konversi tanggal
 
 ---
 
-### 7. Segmentasi Nasabah Berdasarkan Aturan Skor RFM (Rule-Based SQL)
+### 7. Segmentasi Nasabah Berdasarkan Aturan Skor RFM (*Rule-Based SQL*)
 Membagi nasabah ke dalam kuartil skor 1–4 pada pilar R, F, dan M, lalu mengelompokkannya ke dalam 6 kategori profil bisnis perbankan:
 
 <p align="center">
@@ -183,20 +183,20 @@ Membagi nasabah ke dalam kuartil skor 1–4 pada pilar R, F, dan M, lalu mengelo
 Setelah segmentasi berbasis aturan bisnis terbentuk, model *Unsupervised Machine Learning K-Means* dibangun untuk menemukan pengelompokan alami tanpa batasan batas kuartil kaku.
 
 ### 1. Preprocessing Data
-* **Transformasi Logaritmik ($\ln(1+x)$):** Diterapkan pada kolom *recency_days*, *frequency*, dan *monetary* untuk meredam kemiringan ekstrem (*heavy right-skewness*) pada distribusi perbankan.
+* **Transformasi Logaritmik:** Diterapkan pada kolom *recency_days*, *frequency*, dan *monetary* untuk meredam kemiringan ekstrem (*heavy right-skewness*) pada distribusi perbankan.
 * **Feature Standardization (`StandardScaler`):** Menyamakan skala distribusi ketiga variabel (Mean = 0, Varian = 1) agar jarak Euclidean K-Means tidak didominasi oleh variabel bernominal besar.
 
 ---
 
 ### 2. Evaluasi Klaster Optimal: Elbow Method & Silhouette Score
-Evaluasi dilakukan secara komparatif pada rentang $k = 2$ hingga $k = 6$ menggunakan kombinasi metrik kohesi internal (*Inertia*) dan separasi antarklaster (*Silhouette Score*).
+Evaluasi dilakukan secara komparatif pada rentang k = 2 hingga k = 6 menggunakan kombinasi metrik kohesi internal (*Inertia*) dan separasi antarklaster (*Silhouette Score*).
 
 <p align="center">
   <img src="Evaluasi_K_Optimal_Elbow_Silhouette.png" width="800" alt="Evaluasi K Optimal">
 </p>
 
-* **Analisis Inersia / WCSS:** Titik tekukan siku (*elbow*) mulai melandai secara bertahap pada **$k = 4$** ($WCSS \approx 30.500$). Penambahan klaster ke $k = 5$ atau $k = 6$ hanya memberikan penurunan variansi marjinal (*diminishing returns*).
-* **Silhouette Analysis:** Meskipun $k = 2$ memiliki skor separasi geometris tertinggi, membagi portofolio bank menjadi 2 kelompok tidak dapat ditindaklanjuti secara taktis oleh unit bisnis perbankan (*not actionable*). Pada **$k = 4$**, skor Silhouette mengalami peningkatan kembali (*rebound* ke $\approx 0,370$), membuktikan bahwa pemisahan 4 klaster menghasilkan batas kelompok yang jelas dan memiliki interpretasi bisnis yang kuat.
+* **Analisis Inersia / WCSS:** Titik tekukan siku (*elbow*) mulai melandai secara bertahap pada **k = 4**. Penambahan klaster ke k = 5 atau k = 6 hanya memberikan penurunan variansi marjinal (*diminishing returns*).
+* **Silhouette Analysis:** Meskipun k = 2 memiliki skor separasi geometris tertinggi, membagi portofolio bank menjadi 2 kelompok tidak dapat ditindaklanjuti secara taktis oleh unit bisnis perbankan (*not actionable*). Pada **k = 4**, skor Silhouette mengalami peningkatan kembali, membuktikan bahwa pemisahan 4 klaster menghasilkan batas kelompok yang jelas dan memiliki interpretasi bisnis yang kuat.
 
 ---
 
@@ -223,7 +223,7 @@ Model K-Means final membagi 883.660 nasabah ke dalam 4 segmen persona perbankan:
   <img src="Scatter_Recency_vs_Monetary_Clusters.png" width="800" alt="Scatter Recency vs Monetary">
 </p>
 
-* **Pemisahan Moneter Horizontal:** Pada skala logaritmik, terlihat batas demarkasi horizontal yang tegas pada tingkat $\approx 10^{2,5}$ ($\approx ₹300\text{--}₹400$). Wilayah bawah didominasi oleh titik biru (**Bronze Dormant**), sedangkan wilayah atas ditempati titik oranye (**Gold Loyalists**).
+* **Pemisahan Moneter Horizontal:** Pada skala logaritmik, terlihat batas demarkasi horizontal yang tegas pada tingkat $\approx 10^{2,5}$ ($\approx ₹300\text{--}₹400$. Wilayah bawah didominasi oleh titik biru (**Bronze Dormant**), sedangkan wilayah atas ditempati titik oranye (**Gold Loyalists**).
 * **Dimensi Frekuensi pada Platinum VIP (Titik Hijau):** Kelompok Platinum berada di rentang moneter atas berdampingan dengan kelompok Gold, namun dipisahkan oleh K-Means ke klaster tersendiri melalui dimensi kedalaman, yaitu **Frequency** ($\ge 2$ kali transaksi).
 * **Anomali Garis Tegak Silver Mainstream (Titik Merah):** Seluruh titik merah terkonsentrasi tepat di koordinat $Recency = 0$ hari karena operasi $\ln(0 + 1) = 0$, yang secara tepat diidentifikasi oleh algoritma sebagai kelompok perilaku tersendiri.
 
