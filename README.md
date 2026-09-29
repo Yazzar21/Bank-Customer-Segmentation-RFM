@@ -183,7 +183,7 @@ Membagi nasabah ke dalam kuartil skor 1–4 pada pilar R, F, dan M, lalu mengelo
 Setelah segmentasi berbasis aturan bisnis terbentuk, model *Unsupervised Machine Learning K-Means* dibangun untuk menemukan pengelompokan alami tanpa batasan batas kuartil kaku.
 
 ### 1. Preprocessing Data
-* **Transformasi Logaritmik ($\ln(1+x)$):** Diterapkan pada kolom *recency_days*, *frequency*, dan *monetary* untuk meredam kemiringan ekstrem (*heavy right-skewness*) pada distribusi perbankan.
+* **Transformasi Logaritmik (`np.log1p` / log(1 + x)):** Diterapkan pada kolom *recency_days*, *frequency*, dan *monetary* untuk meredam kemiringan ekstrem (*heavy right-skewness*) pada distribusi perbankan.
 * **Feature Standardization (`StandardScaler`):** Menyamakan skala distribusi ketiga variabel (Mean = 0, Varian = 1) agar jarak Euclidean K-Means tidak didominasi oleh variabel bernominal besar.
 
 ---
@@ -225,7 +225,7 @@ Model K-Means final membagi 883.660 nasabah ke dalam 4 segmen persona perbankan:
 
 * **Pemisahan Moneter Horizontal:** Pada skala logaritmik, terlihat batas demarkasi horizontal yang tegas pada tingkat $\approx 10^{2,5}$ ($\approx ₹300\text{--}₹400$). Wilayah bawah didominasi oleh titik biru (**Bronze Dormant**), sedangkan wilayah atas ditempati titik oranye (**Gold Loyalists**).
 * **Dimensi Frekuensi pada Platinum VIP (Titik Hijau):** Kelompok Platinum berada di rentang moneter atas berdampingan dengan kelompok Gold, namun dipisahkan oleh K-Means ke klaster tersendiri melalui dimensi kedalaman, yaitu **Frequency** ($\ge 2$ kali transaksi).
-* **Anomali Garis Tegak Silver Mainstream (Titik Merah):** Seluruh titik merah terkonsentrasi tepat di koordinat $Recency = 0$ hari karena operasi $\ln(0 + 1) = 0$, yang secara tepat diidentifikasi oleh algoritma sebagai kelompok perilaku tersendiri.
+* **Anomali Garis Tegak Silver Mainstream (Titik Merah):** Seluruh titik merah terkonsentrasi tepat di koordinat **Recency = 0 hari** karena operasi log matematis `log(0 + 1) = 0`, yang secara tepat diidentifikasi oleh algoritma sebagai kelompok perilaku tersendiri.
 
 ---
 
