@@ -256,6 +256,10 @@ Matriks silang menguji derajat kesepakatan antara intuisi bisnis kuartil manual 
 
 ---
 
+## 📊 Interactive Business Intelligence Dashboard (Power BI)
+
+![Bank RFM Analytics Dashboard](Bank_Customer_Segmentation_&_RFM_Analytics_Graphic.png)
+
 ## 💼 Rekomendasi Strategis Bisnis Perbankan
 
 | Segmen Nasabah | Tujuan Strategis | Tindakan & Program Pemasaran Terarah |
