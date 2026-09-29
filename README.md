@@ -259,6 +259,11 @@ Matriks silang menguji derajat kesepakatan antara intuisi bisnis kuartil manual 
 ## 📊 Interactive Business Intelligence Dashboard (Power BI)
 
 ![Bank RFM Analytics Dashboard](Bank_Customer_Segmentation_&_RFM_Analytics_Graphic.png)
+- **Total Customers Analyzed:** 884K
+- **Total Monetary Volume:** ₹37 Billion
+- **Key Finding:** Segmen *Platinum VIP* (16.1%) dan *Gold Loyalists* (44.85%) mendominasi >95% perputaran likuiditas, sementara *Bronze Dormant* (38.64%) memerlukan strategi reaktivasi berbasis targeted promotions.
+
+---
 
 ## 💼 Rekomendasi Strategis Bisnis Perbankan
 
